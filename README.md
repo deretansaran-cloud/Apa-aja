@@ -1,2 +1,0 @@
-# Apa-aja
-PunyaRepan
