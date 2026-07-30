@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortoFlix - Portofolio Kelompok 3</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- RESET & GLOBAL VARIABLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-color: #141414;
+            --card-bg: #181818;
+            --accent-red: #e50914;
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 5%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        .brand-logo {
+            color: var(--accent-red);
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tag {
+            background-color: var(--accent-red);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- FEATURED HERO SECTION --- */
+      .hero-banner {
+    position: relative;
+    height: 70vh;
+    min-height: 450px;
+    /* Menggunakan URL foto pilihan kamu dengan efek gradient khas PortoFlix */
+    background: linear-gradient(180deg, rgba(20,20,20,0.5) 0%, rgba(20,20,20,1) 100%),
+                url('https://images.unsplash.com/photo-1785390589212-f306f5272697?w=1200&auto=format&fit=crop&q=80') center/cover no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5% 40px;
+    overflow: hidden;
+}
+
+/* Tulisan PORTOFLIX transparan di atas background foto */
+.hero-banner::before {
+    content: "PORTOFLIX";
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 900;
+    color: rgba(229, 9, 20, 0.25);
+    letter-spacing: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
+        .series-badge {
+            display: inline-block;
+            color: var(--accent-red);
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .match-score {
+            color: #46d369;
+            font-weight: 700;
+        }
+
+        .rating-box {
+            border: 1px solid var(--text-muted);
+            padding: 1px 5px;
+            font-size: 0.75rem;
+        }
+
+        .hero-desc {
+            font-size: 0.95rem;
+            color: #d2d2d2;
+            margin-bottom: 20px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-play {
+            background-color: var(--text-main);
+            color: black;
+            border: none;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-play:hover {
+            background-color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* --- CAST / MEMBER SECTION --- */
+        .main-container {
+            padding: 0 5% 60px;
+            margin-top: -20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .row-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .poster-card {
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .poster-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            z-index: 20;
+        }
+
+        .poster-img-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 130%; /* Aspect ratio 3:4 */
+        }
+
+        .poster-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .poster-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
+            padding: 12px;
+        }
+
+        .poster-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .poster-role {
+            font-size: 0.75rem;
+            color: var(--accent-red);
+            font-weight: 600;
+        }
+
+        /* --- STREAMING-STYLE PREVIEW MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 650px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #181818;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-banner {
+            position: relative;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .modal-banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(24,24,24,0) 40%, rgba(24,24,24,1) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+
+        .modal-body {
+            padding: 0 24px 24px;
+        }
+
+        .modal-header-info {
+            margin-bottom: 16px;
+        }
+
+        .modal-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .modal-role-badge {
+            color: var(--accent-red);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .modal-bio {
+            font-size: 0.95rem;
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .skills-heading {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.1rem; }
+            .hero-banner { height: 60vh; }
+            .cast-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .modal-banner { height: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav>
+        <div class="brand-logo">
+            <i class="fa-solid fa-play"></i> PORTOFLIX
+        </div>
+        <span class="nav-tag">Kel 3 Edition</span>
+    </nav>
+
+    <!-- Main Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <span class="series-badge">A PORTOFLIX ORIGINAL</span>
+            <h1 class="hero-title">  3</h1>
+            <div class="hero-meta">
+                <span class="match-score">99% Match</span>
+                <span class="rating-box">16+</span>
+                <span>6 Anggota Kelompok</span>
+                <span>HD / 4K</span>
+            </div>
+            <p class="hero-desc">Selamat datang di PortoFlix! Platform interaktif untuk menjelajahi profil, peran teknis, serta keahlian dari setiap anggota Kelompok 3.</p>
+            <div class="hero-btns">
+                <button class="btn-play" onclick="scrollToCast()">
+                    <i class="fa-solid fa-play"></i> Lihat Anggota
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cast / Member Section Grid -->
+    <main class="main-container" id="castSection">
+        <div class="row-header">
+            <i class="fa-solid fa-users" style="color: var(--accent-red);"></i> Anggota Kelompok
+        </div>
+        
+        <div class="cast-grid" id="castGrid">
+            <!-- Poster anggota dirender via JavaScript -->
+        </div>
+    </main>
+
+    <!-- Modal Preview Detail Anggota -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <button class="modal-close-btn" id="closeBtn"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="modal-banner" id="modalBanner">
+                <div class="modal-banner-overlay"></div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-header-info">
+                    <h2 class="modal-name" id="modalName">Nama Anggota</h2>
+                    <div class="modal-role-badge" id="modalRole">Peran / Tugas</div>
+                    <div class="modal-stats">
+                        <span class="match-score">100% Match</span>
+                        <span class="rating-box">ANGGOTA KELOMPOK</span>
+                        <span>PortoFlix Profile</span>
+                    </div>
+                </div>
+
+                <p class="modal-bio" id="modalBio">Deskripsi singkat kontribusi...</p>
+
+                <div class="skills-heading">Keahlian & Spesialisasi</div>
+                <div class="skills-container" id="modalSkills"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 PortoFlix - Kelompok 3. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // DATA SEMUA ANGGOTA KELOMPOK (DIBUAT SETARA)
+        const teamMembers = [
+            {
+                id: 1,
+                name: "Alwan Bani Anjabi",
+                role: "Frontend Developer",
+                photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alwan",
+                bgBanner: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800",
+                bio: "Mengembangkan tata letak antarmuka, menyusun arsitektur kode HTML/CSS, dan mengoptimalkan tampilan halaman web.",
+                skills: ["HTML5", "CSS Grid", "Responsive Design", "JavaScript"]
+            },
+            {
+                id: 2,
+                name: "Chaliza Aulia",
+                role: "UI/UX Designer",
+                photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Chaliza",
+                bgBanner: "https://images.unsplash.com/photo-1542744094-3a31b272c490?w=800",
+                bio: "Merancang skema warna dark mode ala platform streaming PortoFlix, mereset elemen visual, dan menjaga kenyamanan tampilan.",
+                skills: ["UI/UX Design", "Layouting", "Color Palette", "Visual Design"]
+            },
+            {
+                id: 3,
+                name: "M. Rizki Ripaldi",
+                role: "JavaScript Developer",
+                photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rizki",
+                bgBanner: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800",
+                bio: "Mengembangkan logika interaktif JavaScript untuk pop-up modal preview dan penanganan event pada kartu anggota.",
+                skills: ["JavaScript DOM", "Event Handling", "Modal System", "Logic Coding"]
+            },
+            {
+                id: 4,
+                name: "M. Bayu Seto",
+                role: "Content & Data Specialist",
+                photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Bayu",
+                bgBanner: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800",
+                bio: "Mengumpulkan data seluruh anggota kelompok, menyusun teks deskripsi portofolio, dan merapikan materi.",
+                skills: ["Data Management", "Content Writing", "Copywriting", "Research"]
+            },
+            {
+                id: 5,
+                name: "Nurlaia Tamara.a",
+                role: "Quality Assurance (QA)",
+                photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nurlaia",
+                bgBanner: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800",
+                bio: "Melakukan pengujian fungsionalitas tombol, kerapihan antarmuka di layar HP, dan memastikan tidak ada error.",
+                skills: ["QA Testing", "Cross-Device Testing", "Bug Tracking", "UI Review"]
+            },
+            {
+                id: 6,
+                name: "Refan Setiawan",
+                role: "Visual & Asset Creator",
+                photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Refan",
+                bgBanner: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800",
+                bio: "Menyediakan aset ikonik Font Awesome, menyelaraskan gambar latar, dan mendukung penataan elemen grafik.",
+                skills: ["Asset Management", "Iconography", "CSS Styling", "Graphics"]
+            }
+        ];
+
+        const castGrid = document.getElementById('castGrid');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+
+        const modalBanner = document.getElementById('modalBanner');
+        const modalName = document.getElementById('modalName');
+        const modalRole = document.getElementById('modalRole');
+        const modalBio = document.getElementById('modalBio');
+        const modalSkills = document.getElementById('modalSkills');
+
+        // Render Poster Anggota
+        function renderCastGrid() {
+            castGrid.innerHTML = teamMembers.map(member => `
+                <div class="poster-card" onclick="openModal(${member.id})">
+                    <div class="poster-img-wrapper">
+                        <img src="${member.photo}" class="poster-img" alt="${member.name}">
+                        <div class="poster-overlay">
+                            <div class="poster-title">${member.name}</div>
+                            <div class="poster-role">${member.role}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Scroll Halus ke Bagian Anggota
+        function scrollToCast() {
+            document.getElementById('castSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Buka Pop-Up Detail Anggota
+        function openModal(id) {
+            const member = teamMembers.find(m => m.id === id);
+            if (!member) return;
+
+            modalBanner.style.backgroundImage = `url('${member.bgBanner}')`;
+            modalName.innerText = member.name;
+            modalRole.innerText = member.role;
+            modalBio.innerText = member.bio;
+            modalSkills.innerHTML = member.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('');
+
+            modalOverlay.classList.add('active');
+        }
+
+        // Tutup Modal
+        closeBtn.addEventListener('click', () => modalOverlay.classList.remove('active'));
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) modalOverlay.classList.remove('active');
+        });
+
+        // Jalankan render awal
+        renderCastGrid();
+    </script>
+</body>
+</html>
